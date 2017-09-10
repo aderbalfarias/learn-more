@@ -11,7 +11,7 @@ namespace LearnMore.Mvc.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "test";
+            ViewBag.Message = "test.";
 
             return View();
         }
