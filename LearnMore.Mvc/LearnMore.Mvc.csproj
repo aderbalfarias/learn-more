@@ -217,6 +217,10 @@
     <Compile Include="Migrations\201709112001117_OverrideConvertionsForEventsAndGenres.Designer.cs">
       <DependentUpon>201709112001117_OverrideConvertionsForEventsAndGenres.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709112017569_PopulateGenresTable.cs" />
+    <Compile Include="Migrations\201709112017569_PopulateGenresTable.Designer.cs">
+      <DependentUpon>201709112017569_PopulateGenresTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -308,6 +312,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709112001117_OverrideConvertionsForEventsAndGenres.resx">
       <DependentUpon>201709112001117_OverrideConvertionsForEventsAndGenres.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709112017569_PopulateGenresTable.resx">
+      <DependentUpon>201709112017569_PopulateGenresTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
