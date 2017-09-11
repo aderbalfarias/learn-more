@@ -209,9 +209,20 @@
     <Compile Include="Migrations\201709111814420_InitialModel.Designer.cs">
       <DependentUpon>201709111814420_InitialModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709111905038_CreateEventTable.cs" />
+    <Compile Include="Migrations\201709111905038_CreateEventTable.Designer.cs">
+      <DependentUpon>201709111905038_CreateEventTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709112001117_OverrideConvertionsForEventsAndGenres.cs" />
+    <Compile Include="Migrations\201709112001117_OverrideConvertionsForEventsAndGenres.Designer.cs">
+      <DependentUpon>201709112001117_OverrideConvertionsForEventsAndGenres.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\Genre.cs" />
+    <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -291,6 +302,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201709111814420_InitialModel.resx">
       <DependentUpon>201709111814420_InitialModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709111905038_CreateEventTable.resx">
+      <DependentUpon>201709111905038_CreateEventTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709112001117_OverrideConvertionsForEventsAndGenres.resx">
+      <DependentUpon>201709112001117_OverrideConvertionsForEventsAndGenres.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
