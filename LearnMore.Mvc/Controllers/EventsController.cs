@@ -1,5 +1,6 @@
 ﻿using LearnMore.Mvc.Models;
 using LearnMore.Mvc.ViewModels;
+using Microsoft.AspNet.Identity;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -15,6 +16,7 @@ namespace LearnMore.Mvc.Controllers
         }
 
         // GET: Event
+        [Authorize]
         public ActionResult Create()
         {
             var viewModel = new EventFormViewModel()
@@ -23,6 +25,30 @@ namespace LearnMore.Mvc.Controllers
             };
 
             return View(viewModel);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Create(EventFormViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                viewModel.Genres = _context.Genres.ToList();
+                return View("Create", viewModel);
+            }
+
+            var evt = new Event
+            {
+                OwnerId = User.Identity.GetUserId(),
+                DateTime = viewModel.GetDateTime(),
+                GenreId = viewModel.Genre,
+                Venue = viewModel.Venue
+            };
+
+            _context.Events.Add(evt);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
