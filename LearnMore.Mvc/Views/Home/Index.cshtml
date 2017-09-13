@@ -3,9 +3,26 @@
     ViewBag.Title = "Home Page";
 }
 
-<ul>
+<ul class="evts">
     @foreach (var evt in Model)
     {
-        <li>@evt.DateTime - @evt.Owner.Name</li>
+        <li>
+            <div class="date">
+                <div class="month">
+                    @evt.DateTime.ToString("MMM")
+                </div>
+                <div class="day">
+                    @evt.DateTime.ToString("d ")
+                </div>
+            </div>
+            <div class="details">
+                <span class="owner">
+                    @evt.Owner.Name
+                </span>
+                <span class="genre">
+                    @evt.Genre.Name
+                </span>
+            </div>
+        </li>
     }
 </ul>

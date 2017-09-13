@@ -18,8 +18,9 @@ namespace LearnMore.Mvc.Controllers
         public ActionResult Index()
         {
             var upcomingEvents = _context.Events
-                .Include(g => g.Owner)
-                .Where(g => g.DateTime > DateTime.Now);
+                .Include(e => e.Owner)
+                .Include(e => e.Genre)
+                .Where(e => e.DateTime > DateTime.Now);
 
             return View(upcomingEvents);
         }
