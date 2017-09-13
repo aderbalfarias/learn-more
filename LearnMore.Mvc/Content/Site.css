@@ -43,12 +43,13 @@ span.field-validation-error {
 }
 
 .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+    /* ReSharper disable once RequiresFallbackColor */
     background-color: rgba(205, 40, 39, 0.55);
 }
 
 .dropdown-menu {
-    box-shadow: none;
     -webkit-box-shadow: none;
+    box-shadow: none;
 }
 
 .navbar-inverse .navbar-nav > .dropdown > a .caret {
