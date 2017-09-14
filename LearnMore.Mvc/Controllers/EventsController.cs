@@ -1,6 +1,7 @@
 ﻿using LearnMore.Mvc.Models;
 using LearnMore.Mvc.ViewModels;
 using Microsoft.AspNet.Identity;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -14,12 +15,32 @@ namespace LearnMore.Mvc.Controllers
         {
             _context = new ApplicationDbContext();
         }
+        [Authorize]
+        public ActionResult Attending()
+        {
+            var userId = User.Identity.GetUserId();
+            var evts = _context.Attendances
+                .Where(a => a.AttendeeId == userId)
+                .Select(a => a.Event)
+                .Include(g => g.Owner)
+                .Include(g => g.Genre)
+                .ToList();
 
-        // GET: Event
+            var viewModel = new EventsViewModel()
+            {
+                UpcomingEvent = evts,
+                ShowActions = User.Identity.IsAuthenticated,
+                Heading = "Events I'm Attending"
+            };
+
+            return View("Index", viewModel);
+        }
+
+
         [Authorize]
         public ActionResult Create()
         {
-            var viewModel = new EventFormViewModel()
+            var viewModel = new EventsFormViewModel
             {
                 Genres = _context.Genres.ToList()
             };
@@ -30,7 +51,7 @@ namespace LearnMore.Mvc.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(EventFormViewModel viewModel)
+        public ActionResult Create(EventsFormViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {

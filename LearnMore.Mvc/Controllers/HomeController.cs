@@ -1,4 +1,5 @@
 ﻿using LearnMore.Mvc.Models;
+using LearnMore.Mvc.ViewModels;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -17,12 +18,19 @@ namespace LearnMore.Mvc.Controllers
 
         public ActionResult Index()
         {
-            var upcomingEvents = _context.Events
-                .Include(e => e.Owner)
-                .Include(e => e.Genre)
-                .Where(e => e.DateTime > DateTime.Now);
+            var upcomingEvent = _context.Events
+                .Include(g => g.Owner)
+                .Include(g => g.Genre)
+                .Where(g => g.DateTime > DateTime.Now);
 
-            return View(upcomingEvents);
+            var viewModel = new EventsViewModel
+            {
+                UpcomingEvent = upcomingEvent,
+                ShowActions = User.Identity.IsAuthenticated,
+                Heading = "Upcoming Events"
+            };
+
+            return View("Index", viewModel);
         }
 
         public ActionResult About()

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LearnMore.Mvc.ViewModels
 {
-    public class EventFormViewModel
+    public class EventsFormViewModel
     {
         [Required]
         public string Venue { get; set; }

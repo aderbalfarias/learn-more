@@ -1,0 +1,14 @@
+﻿@model IEnumerable<LearnMore.Mvc.Models.ApplicationUser>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Who I Follow</h1>
+<ul>
+    @foreach (var owner in Model)
+    {
+        <li>@owner.Name</li>
+    }
+</ul>
+

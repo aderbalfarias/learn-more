@@ -1,6 +1,6 @@
 ﻿@model LearnMore.Mvc.ViewModels.EventsViewModel
 @{
-    ViewBag.Title = "Home";
+    ViewBag.Title = "Attending";
 }
 
 <h1>@Model.Heading</h1>
@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="details">
-                <span class="artist">
+                <span class="owner">
                     @evt.Owner.Name
 
                     @if (Model.ShowActions)
@@ -42,7 +42,7 @@
         $(document).ready(function() {
             $(".js-toggle-attendance").click(function(e) {
                 var button = $(e.target);
-                $.post("/api/attendances", { eventId: button.attr("data-evt-id") })
+                $.post("/api/attendances", { evtId: button.attr("data-evt-id") })
                     .done(function() {
                         button
                             .removeClass("btn-default")
