@@ -4,12 +4,12 @@ using LearnMore.Mvc.Dtos;
 using LearnMore.Mvc.Models;
 using Microsoft.AspNet.Identity;
 
-namespace LearnMore.Mvc.Controllers
+namespace LearnMore.Mvc.Controllers.Api
 {
     [Authorize]
     public class FollowingsController : ApiController
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public FollowingsController()
         {

@@ -21,11 +21,11 @@ namespace LearnMore.Mvc.Controllers
             var upcomingEvent = _context.Events
                 .Include(g => g.Owner)
                 .Include(g => g.Genre)
-                .Where(g => g.DateTime > DateTime.Now);
+                .Where(g => g.DateTime > DateTime.Now && !g.IsCanceled);
 
             var viewModel = new EventsViewModel
             {
-                UpcomingEvent = upcomingEvent,
+                UpcomingEvents = upcomingEvent,
                 ShowActions = User.Identity.IsAuthenticated,
                 Heading = "Upcoming Events"
             };

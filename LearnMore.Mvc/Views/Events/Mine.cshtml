@@ -1,0 +1,80 @@
+﻿@model IEnumerable<LearnMore.Mvc.Models.Event>
+@{
+    ViewBag.Title = "Mine";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>My Upcoming events</h2>
+<ul class="events voffset4">
+    @foreach (var evt in Model)
+    {
+        <li>
+            <div class="date">
+                <div class="month">
+                    @evt.DateTime.ToString("MMM")
+                </div>
+                <div class="day">
+                    @evt.DateTime.ToString("d ")
+                </div>
+            </div>
+            <div class="details">
+                <span class="owner">
+                    @evt.Venue
+                </span>
+                <span class="genre">
+                    @evt.Genre.Name
+                </span>
+                <div class="actions">
+                    <a href="@Url.Action("Edit", "Events", new { id = evt.Id })">
+                        Edit
+                    </a> |
+                    <a href="#" class="js-cancel-gig" data-gig-id="@evt.Id">
+                        Cancel
+                    </a>
+                </div>
+            </div>
+        </li>
+    }
+</ul>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".js-cancel-gig").click(function (e) {
+                var link = $(e.target);
+
+                bootbox.dialog({
+                    message: "Are you sure you want to cancel this gig?",
+                    title: "Confirm",
+                    buttons: {
+                        no: {
+                            label: "No",
+                            className: "btn-default",
+                            callback: function () {
+                                bootbox.hideAll();
+                            }
+                        },
+                        yes: {
+                            label: "Yes",
+                            className: "btn-danger",
+                            callback: function () {
+                                $.ajax({
+                                    url: "/api/events/" + link.attr("data-gig-id"),
+                                    method: "DELETE"
+                                })
+                                .done(function () {
+                                    link.parents("li").fadeOut(function () {
+                                        $(this).remove();
+                                    });
+                                })
+                                .fail(function () {
+                                    alert("Something failed!");
+                                });
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

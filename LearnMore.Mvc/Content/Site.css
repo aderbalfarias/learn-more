@@ -93,7 +93,7 @@ h6,
 
 .form-control {
     font-size: 17px;
-    padding: 20px 15px;
+    height: 44px;
     -ms-border-radius: 9px;
     border-radius: 9px;
 }
@@ -107,16 +107,16 @@ h6,
 }
 
 /* Page-level styles */
-.evts {
+.events {
     list-style: none;
 }
 
-.evts > li {
+.events > li {
     position: relative;
     margin-bottom: 30px;
 }
 
-.evts > li .date {
+.events > li .date {
     background: red;
     color: white;
     text-align: center;
@@ -125,32 +125,40 @@ h6,
     border-radius: 8px;
 }
 
-.evts > li .date .month {
+.events > li .date .month {
     text-transform: uppercase;
     font-size: 14px;
     font-weight: bold;
     padding: 2px 6px;
 }
 
-    .evts > li .date .day {
+    .events > li .date .day {
         background: #f7f7f7;
         color: #333;
         font-size: 20px;
         padding: 6px 12px;
     }
 
-.evts > li .details {
+.events > li .details {
     position: absolute;
     top: 0;
     left: 70px;    
 }
 
-    .evts > li .details .owner {
+    .events > li .details .owner {
         font-weight: bold;
         display: block;
     }
 
-    .evts > li .details .genre {
+    .events > li .details .genre {
         font-size: 15px;
     }
 
+.events > li .actions {
+    font-size: 15px;
+    display: none;
+}
+
+.events > li:hover .actions {
+    display: block;
+}

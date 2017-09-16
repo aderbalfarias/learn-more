@@ -7,6 +7,8 @@ namespace LearnMore.Mvc.Models
     {
         public int Id { get; set; }
 
+        public bool IsCanceled { get; set; }
+
         public ApplicationUser Owner { get; set; }
 
         [Required]

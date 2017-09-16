@@ -1,6 +1,7 @@
 ﻿using LearnMore.Mvc.Models;
 using LearnMore.Mvc.ViewModels;
 using Microsoft.AspNet.Identity;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -15,6 +16,22 @@ namespace LearnMore.Mvc.Controllers
         {
             _context = new ApplicationDbContext();
         }
+
+        [Authorize]
+        public ActionResult Mine()
+        {
+            var userId = User.Identity.GetUserId();
+            var evts = _context.Events
+                .Where(g =>
+                    g.OwnerId == userId &&
+                    g.DateTime > DateTime.Now &&
+                    !g.IsCanceled)
+                .Include(g => g.Genre)
+                .ToList();
+
+            return View(evts);
+        }
+
         [Authorize]
         public ActionResult Attending()
         {
@@ -26,11 +43,11 @@ namespace LearnMore.Mvc.Controllers
                 .Include(g => g.Genre)
                 .ToList();
 
-            var viewModel = new EventsViewModel()
+            var viewModel = new EventsViewModel
             {
-                UpcomingEvent = evts,
+                UpcomingEvents = evts,
                 ShowActions = User.Identity.IsAuthenticated,
-                Heading = "Events I'm Attending"
+                Heading = "Gigs I'm Attending"
             };
 
             return View("Index", viewModel);
@@ -40,26 +57,47 @@ namespace LearnMore.Mvc.Controllers
         [Authorize]
         public ActionResult Create()
         {
-            var viewModel = new EventsFormViewModel
+            var viewModel = new EventFormViewModel
             {
-                Genres = _context.Genres.ToList()
+                Genres = _context.Genres.ToList(),
+                Heading = "Add a Event"
             };
 
-            return View(viewModel);
+            return View("Form", viewModel);
+        }
+
+        [Authorize]
+        public ActionResult Edit(int id)
+        {
+            var userId = User.Identity.GetUserId();
+            var evt = _context.Events.Single(g => g.Id == id && g.OwnerId == userId);
+
+            var viewModel = new EventFormViewModel
+            {
+                Heading = "Edit a Event",
+                Id = evt.Id,
+                Genres = _context.Genres.ToList(),
+                Date = evt.DateTime.ToString("d MMM yyyy"),
+                Time = evt.DateTime.ToString("HH:mm"),
+                Genre = evt.GenreId,
+                Venue = evt.Venue
+            };
+
+            return View("Form", viewModel);
         }
 
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(EventsFormViewModel viewModel)
+        public ActionResult Create(EventFormViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
                 viewModel.Genres = _context.Genres.ToList();
-                return View("Create", viewModel);
+                return View("Form", viewModel);
             }
 
-            var evt = new Event
+            var gig = new Event
             {
                 OwnerId = User.Identity.GetUserId(),
                 DateTime = viewModel.GetDateTime(),
@@ -67,10 +105,32 @@ namespace LearnMore.Mvc.Controllers
                 Venue = viewModel.Venue
             };
 
-            _context.Events.Add(evt);
+            _context.Events.Add(gig);
             _context.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Mine", "Events");
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Update(EventFormViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                viewModel.Genres = _context.Genres.ToList();
+                return View("Form", viewModel);
+            }
+
+            var userId = User.Identity.GetUserId();
+            var evt = _context.Events.Single(g => g.Id == viewModel.Id && g.OwnerId == userId);
+            evt.Venue = viewModel.Venue;
+            evt.DateTime = viewModel.GetDateTime();
+            evt.GenreId = viewModel.Genre;
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Mine", "Events");
         }
     }
 }

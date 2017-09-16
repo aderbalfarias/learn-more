@@ -4,8 +4,8 @@
 }
 
 <h1>@Model.Heading</h1>
-<ul class="evts voffset4">
-    @foreach (var evt in Model.UpcomingEvent)
+<ul class="events voffset4">
+    @foreach (var evt in Model.UpcomingEvents)
     {
         <li>
             <div class="date">
@@ -17,8 +17,13 @@
                 </div>
             </div>
             <div class="details">
-                <span class="artist">
+                <span class="owner">
                     @evt.Owner.Name
+
+                    @if (evt.IsCanceled)
+                    {
+                        <span class="label label-warning">Canceled</span>
+                    }
 
                     @if (Model.ShowActions)
                     {
@@ -28,9 +33,9 @@
                 <span class="genre">
                     @evt.Genre.Name
                 </span>
-                @if (Model.ShowActions)
+                @if (Model.ShowActions && !evt.IsCanceled)
                 {
-                    <button data-evt-id="@evt.Id" class="btn btn-default btn-sm pull-right js-toggle-attendance">Going?</button>
+                    <button data-gig-id="@evt.Id" class="btn btn-default btn-sm pull-right js-toggle-attendance">Going?</button>
                 }
             </div>
         </li>

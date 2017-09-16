@@ -1,10 +1,10 @@
-﻿using LearnMore.Mvc.Dtos;
+﻿using System.Linq;
+using System.Web.Http;
+using LearnMore.Mvc.Dtos;
 using LearnMore.Mvc.Models;
 using Microsoft.AspNet.Identity;
-using System.Linq;
-using System.Web.Http;
 
-namespace LearnMore.Mvc.Controllers
+namespace LearnMore.Mvc.Controllers.Api
 {
     [Authorize]
     public class AttendancesController : ApiController
