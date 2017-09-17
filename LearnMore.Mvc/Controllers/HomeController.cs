@@ -16,18 +16,28 @@ namespace LearnMore.Mvc.Controllers
             _context = new ApplicationDbContext();
         }
 
-        public ActionResult Index()
+        public ActionResult Index(string searchTerm = null)
         {
-            var upcomingEvent = _context.Events
+            var upcomingEvents = _context.Events
                 .Include(g => g.Owner)
                 .Include(g => g.Genre)
                 .Where(g => g.DateTime > DateTime.Now && !g.IsCanceled);
 
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                upcomingEvents = upcomingEvents
+                    .Where(g =>
+                        g.Owner.Name.Contains(searchTerm) ||
+                        g.Genre.Name.Contains(searchTerm) ||
+                        g.Venue.Contains(searchTerm));
+            }
+
             var viewModel = new EventsViewModel
             {
-                UpcomingEvents = upcomingEvent,
+                UpcomingEvents = upcomingEvents,
                 ShowActions = User.Identity.IsAuthenticated,
-                Heading = "Upcoming Events"
+                Heading = "Upcoming Gigs",
+                SearchTerm = searchTerm
             };
 
             return View("Index", viewModel);

@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using System.Web.Http;
-using LearnMore.Mvc.Dtos;
+﻿using LearnMore.Mvc.Dtos;
 using LearnMore.Mvc.Models;
 using Microsoft.AspNet.Identity;
+using System.Linq;
+using System.Web.Http;
 
 namespace LearnMore.Mvc.Controllers.Api
 {
@@ -17,17 +17,17 @@ namespace LearnMore.Mvc.Controllers.Api
         }
 
         [HttpPost]
-        public IHttpActionResult Follow(FollowingDto dto)
+        public IHttpActionResult Follow(FollowingDto followingDto)
         {
             var userId = User.Identity.GetUserId();
 
-            if (_context.Followings.Any(f => f.FolloweeId == userId && f.FolloweeId == dto.FolloweeId))
+            if (_context.Followings.Any(f => f.FolloweeId == userId && f.FolloweeId == followingDto.FolloweeId))
                 return BadRequest("Following already exists.");
 
             var following = new Following
             {
                 FollowerId = userId,
-                FolloweeId = dto.FolloweeId
+                FolloweeId = followingDto.FolloweeId
             };
 
             _context.Followings.Add(following);

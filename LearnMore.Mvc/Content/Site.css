@@ -178,4 +178,12 @@ h6,
 .popover-notifications ul.notifications .highlight {
   font-weight: bold;
 }
+
+#searchEvents {
+    width: 400px;
+}
+#searchEvents input {
+    max-width: none;
+}
+
 /*# sourceMappingURL=site.css.map */

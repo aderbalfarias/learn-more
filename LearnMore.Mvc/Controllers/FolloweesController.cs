@@ -7,7 +7,7 @@ namespace LearnMore.Mvc.Controllers
 {
     public class FolloweesController : Controller
     {
-        private ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public FolloweesController()
         {

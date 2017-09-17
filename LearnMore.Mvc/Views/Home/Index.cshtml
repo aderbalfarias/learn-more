@@ -4,6 +4,18 @@
 }
 
 <h1>@Model.Heading</h1>
+@using (Html.BeginForm("Index", "Home"))
+{
+    <div class="form-group">
+        <div id="searchEvents" class="input-group">
+            @Html.TextBoxFor(m => m.SearchTerm, new { @class = "form-control", placeholder = "Search by Owner, Genre or Location..." })
+            <span class="input-group-addon">
+                <i class="glyphicon glyphicon-search"></i>
+            </span>
+        </div>
+    </div>
+}
+
 <ul class="events voffset4">
     @foreach (var evt in Model.UpcomingEvents)
     {
@@ -47,7 +59,7 @@
         $(document).ready(function() {
             $(".js-toggle-attendance").click(function(e) {
                 var button = $(e.target);
-                $.post("/api/attendances", { eventId: button.attr("data-evt-id") })
+                $.post("/api/attendances", { eventId: button.attr("data-event-id") })
                     .done(function() {
                         button
                             .removeClass("btn-default")
