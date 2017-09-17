@@ -20,7 +20,7 @@ namespace LearnMore.Mvc.Controllers.Api
         }
 
         public IEnumerable<NotificationDto> GetNewNotifications()
-        {
+         {
             var userId = User.Identity.GetUserId();
 
             var notifications = _context.UserNotifications

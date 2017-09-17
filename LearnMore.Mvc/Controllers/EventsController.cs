@@ -47,7 +47,7 @@ namespace LearnMore.Mvc.Controllers
             {
                 UpcomingEvents = evts,
                 ShowActions = User.Identity.IsAuthenticated,
-                Heading = "Gigs I'm Attending"
+                Heading = "Event I'm Attending"
             };
 
             return View("Index", viewModel);
@@ -97,7 +97,7 @@ namespace LearnMore.Mvc.Controllers
                 return View("Form", viewModel);
             }
 
-            var gig = new Event
+            var evt = new Event
             {
                 OwnerId = User.Identity.GetUserId(),
                 DateTime = viewModel.GetDateTime(),
@@ -105,7 +105,7 @@ namespace LearnMore.Mvc.Controllers
                 Venue = viewModel.Venue
             };
 
-            _context.Events.Add(gig);
+            _context.Events.Add(evt);
             _context.SaveChanges();
 
             return RedirectToAction("Mine", "Events");

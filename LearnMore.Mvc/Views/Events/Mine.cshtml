@@ -28,7 +28,7 @@
                     <a href="@Url.Action("Edit", "Events", new { id = evt.Id })">
                         Edit
                     </a> |
-                    <a href="#" class="js-cancel-gig" data-gig-id="@evt.Id">
+                    <a href="#" class="js-cancel-event" data-event-id="@evt.Id">
                         Cancel
                     </a>
                 </div>
@@ -40,11 +40,11 @@
 {
     <script>
         $(document).ready(function () {
-            $(".js-cancel-gig").click(function (e) {
+            $(".js-cancel-event").click(function (e) {
                 var link = $(e.target);
 
                 bootbox.dialog({
-                    message: "Are you sure you want to cancel this gig?",
+                    message: "Are you sure you want to cancel this event?",
                     title: "Confirm",
                     buttons: {
                         no: {
@@ -59,7 +59,7 @@
                             className: "btn-danger",
                             callback: function () {
                                 $.ajax({
-                                    url: "/api/events/" + link.attr("data-gig-id"),
+                                    url: "/api/events/" + link.attr("data-event-id"),
                                     method: "DELETE"
                                 })
                                 .done(function () {

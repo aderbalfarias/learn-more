@@ -8,7 +8,7 @@ namespace LearnMore.Mvc
     {
         public MappingProfile()
         {
-            CreateMap<Event, EventDto>();
+            CreateMap<ApplicationUser, UserDto>();
             CreateMap<Event, EventDto>();
             CreateMap<Notification, NotificationDto>();
         }
