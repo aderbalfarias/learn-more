@@ -123,10 +123,11 @@ namespace LearnMore.Mvc.Controllers
             }
 
             var userId = User.Identity.GetUserId();
-            var evt = _context.Events.Single(g => g.Id == viewModel.Id && g.OwnerId == userId);
-            evt.Venue = viewModel.Venue;
-            evt.DateTime = viewModel.GetDateTime();
-            evt.GenreId = viewModel.Genre;
+            var evt = _context.Events
+                .Include(g => g.Attendances.Select(a => a.Attendee))
+                .Single(g => g.Id == viewModel.Id && g.OwnerId == userId);
+
+            evt.Modify(viewModel.GetDateTime(), viewModel.Venue, viewModel.Genre);
 
             _context.SaveChanges();
 
