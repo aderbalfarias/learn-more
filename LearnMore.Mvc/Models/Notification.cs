@@ -14,6 +14,10 @@ namespace LearnMore.Mvc.Models
         [Required]
         public Event Event { get; private set; }
 
+        protected Notification()
+        {
+        }
+
         private Notification(NotificationType type, Event evt)
         {
             if (evt == null)
