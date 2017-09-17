@@ -20,7 +20,7 @@ namespace LearnMore.Mvc.Controllers.Api
         }
 
         public IEnumerable<NotificationDto> GetNewNotifications()
-         {
+        {
             var userId = User.Identity.GetUserId();
 
             var notifications = _context.UserNotifications
@@ -30,6 +30,21 @@ namespace LearnMore.Mvc.Controllers.Api
                 .ToList();
 
             return notifications.Select(Mapper.Map<Notification, NotificationDto>);
+        }
+
+        [HttpPost]
+        public IHttpActionResult MarkAsRead()
+        {
+            var userId = User.Identity.GetUserId();
+            var notifications = _context.UserNotifications
+                .Where(un => un.UserId == userId && !un.IsRead)
+                .ToList();
+
+            notifications.ForEach(n => n.Read());
+
+            _context.SaveChanges();
+
+            return Ok();
         }
     }
 }

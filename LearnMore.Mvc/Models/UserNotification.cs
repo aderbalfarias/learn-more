@@ -18,7 +18,7 @@ namespace LearnMore.Mvc.Models
 
         public Notification Notification { get; set; }
 
-        public bool IsRead { get; set; }
+        public bool IsRead { get; private set; }
 
         protected UserNotification()
         {
@@ -34,6 +34,11 @@ namespace LearnMore.Mvc.Models
 
             User = user;
             Notification = notification;
+        }
+
+        public void Read()
+        {
+            IsRead = true;
         }
     }
 }
