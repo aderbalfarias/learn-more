@@ -37,16 +37,15 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/lib")
     @RenderSection("scripts", required: false)
     <script type="text/x-template" id="notifications-template">
-        <ul>
+        <ul class="notifications">
             <%
                 _.each(notifications, function(notification){
                 if (notification.type == 1) { %>
-                <li><%= notification.event.owner.name %> has canceled the event at <%= notification.event.venue %> at <%= notification.event.dateTime %>.</li>
-            <% }
+                    <li><span class="highlight"><%= notification.event.owner.name %></span> has canceled the event at <%= notification.event.venue %> at <%= moment(notification.event.dateTime).format("D MMM HH:mm") %>.</li>
+                <% }
 
                 else if (notification.type == 2) {
                     var changes = [],
@@ -57,19 +56,19 @@
                     changes.push('venue');
                     originalValues.push(notification.originalVenue);
                     newValues.push(notification.event.venue);
-                }
+                    }
 
-                if (notification.originalDateTime != notification.event.dateTime) {
+                    if (notification.originalDateTime != notification.event.dateTime) {
                     changes.push('date/time');
-                    originalValues.push(notification.originalDateTime);
-                    newValues.push(notification.event.dateTime);
-                }
+                    originalValues.push(moment(notification.originalDateTime).format("D MMM HH:mm"));
+                    newValues.push(moment(notification.event.dateTime).format("D MMM HH:mm"));
+                    }
 
                     %>
-                    <li><%= notification.event.owner.name %> has changed the <%= changes.join(' and ') %> of the event from <%= originalValues.join('/') %> to <%= newValues.join('/') %></li>
+                    <li><span class="highlight"><%= notification.event.owner.name %></span> has changed the <%= changes.join(' and ') %> of the event from <%= originalValues.join('/') %> to <%= newValues.join('/') %></li>
                     <%
-                    }
-                })
+                }
+            })
             %>
         </ul>
     </script>
@@ -91,7 +90,9 @@
                         var compiled = _.template($("#notifications-template").html());
                         return compiled({ notifications: notifications });
                     },
-                    placement: "bottom"
+                    placement: "bottom",
+                    template: '<div class="popover popover-notifications" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+
                 });
 
             });
