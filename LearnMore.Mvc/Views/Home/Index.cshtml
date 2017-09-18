@@ -9,8 +9,10 @@
     <div class="form-group">
         <div id="searchEvents" class="input-group">
             @Html.TextBoxFor(m => m.SearchTerm, new { @class = "form-control", placeholder = "Search by Owner, Genre or Location..." })
-            <span class="input-group-addon">
-                <i class="glyphicon glyphicon-search"></i>
+            <span class="input-group-btn">
+                <button class="btn btn-lg" type="submit" id="btnPesquisar">
+                    <i class="glyphicon glyphicon-search"></i>
+                </button>
             </span>
         </div>
     </div>

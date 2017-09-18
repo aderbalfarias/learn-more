@@ -81,6 +81,9 @@ span.field-validation-error {
 .navbar-brand {
   font-weight: 700;
 }
+.btn-lg { 
+    padding: 9px 16px; 
+}
 body {
   font-size: 17px;
 }
