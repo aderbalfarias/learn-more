@@ -4,20 +4,13 @@ using System.Linq;
 
 namespace LearnMore.Mvc.Repositories
 {
-    public class FollowingRepository
+    public class ApplicationUserRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public FollowingRepository(ApplicationDbContext context)
+        public ApplicationUserRepository(ApplicationDbContext context)
         {
             _context = context;
-        }
-
-        public Following GetFollowing(string followerId, string followeeId)
-        {
-            return _context.Followings
-                .SingleOrDefault(f => f.FolloweeId == followeeId
-                    && f.FollowerId == followerId);
         }
 
         public IEnumerable<ApplicationUser> GetFollowee(string userId)

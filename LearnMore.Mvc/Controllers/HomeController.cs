@@ -1,8 +1,7 @@
 ﻿using LearnMore.Mvc.Models;
+using LearnMore.Mvc.Persistence;
 using LearnMore.Mvc.ViewModels;
 using Microsoft.AspNet.Identity;
-using System;
-using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -10,42 +9,27 @@ namespace LearnMore.Mvc.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly UnitOfWork _unitOfWork;
 
         public HomeController()
         {
-            _context = new ApplicationDbContext();
+            _unitOfWork = new UnitOfWork(new ApplicationDbContext());
         }
 
         public ActionResult Index(string searchTerm = null)
         {
-            var upcomingEvents = _context.Events
-                .Include(g => g.Owner)
-                .Include(g => g.Genre)
-                .Where(g => g.DateTime > DateTime.Now && !g.IsCanceled);
-
-            if (!string.IsNullOrWhiteSpace(searchTerm))
-            {
-                upcomingEvents = upcomingEvents
-                    .Where(g =>
-                        g.Owner.Name.Contains(searchTerm) ||
-                        g.Genre.Name.Contains(searchTerm) ||
-                        g.Venue.Contains(searchTerm));
-            }
-
-            var userId = User.Identity.GetUserId();
-            var attendances = _context.Attendances
-                .Where(a => a.AttendeeId == userId && a.Event.DateTime > DateTime.Now)
-                .ToList()
-                .ToLookup(a => a.EventId);
+            var upcomingEvents = _unitOfWork.Events.GetEventsUpcoming(searchTerm);
 
             var viewModel = new EventsViewModel
             {
                 UpcomingEvents = upcomingEvents,
                 ShowActions = User.Identity.IsAuthenticated,
-                Heading = "Upcoming Events",
-                SearchTerm = searchTerm,
-                Attendances = attendances
+                Heading = "Event I'm Attending",
+                Attendances = _unitOfWork
+                    .Attendances
+                    .GetFutureAttendances(User.Identity.GetUserId())
+                    .ToLookup(a => a.EventId),
+                SearchTerm = searchTerm
             };
 
             return View("Index", viewModel);

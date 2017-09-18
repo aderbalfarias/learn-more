@@ -34,6 +34,26 @@ namespace LearnMore.Mvc.Repositories
                 .ToList();
         }
 
+        public IEnumerable<Event> GetEventsUpcoming(string query)
+        {
+            var upcomingEvents = _context.Events
+                .Include(g => g.Owner)
+                .Include(g => g.Genre)
+                .Where(g => g.DateTime > DateTime.Now && !g.IsCanceled);
+
+            if (!string.IsNullOrWhiteSpace(query))
+            {
+                upcomingEvents = upcomingEvents
+                    .Where(g =>
+                        g.Owner.Name.Contains(query) ||
+                        g.Genre.Name.Contains(query) ||
+                        g.Venue.Contains(query));
+            }
+
+            return upcomingEvents
+                .ToList();
+        }
+
         public Event GetEventWithAttendees(int eventId)
         {
             return _context.Events
