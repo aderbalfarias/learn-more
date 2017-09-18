@@ -33,7 +33,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - EventX</p>
         </footer>
     </div>
 
@@ -54,15 +54,15 @@
                     newValues = [];
 
                     if (notification.originalVenue != notification.event.venue) {
-                    changes.push('venue');
-                    originalValues.push(notification.originalVenue);
-                    newValues.push(notification.event.venue);
+                        changes.push('venue');
+                        originalValues.push(notification.originalVenue);
+                        newValues.push(notification.event.venue);
                     }
 
                     if (notification.originalDateTime != notification.event.dateTime) {
-                    changes.push('date/time');
-                    originalValues.push(moment(notification.originalDateTime).format("D MMM HH:mm"));
-                    newValues.push(moment(notification.event.dateTime).format("D MMM HH:mm"));
+                        changes.push('date/time');
+                        originalValues.push(moment(notification.originalDateTime).format("D MMM HH:mm"));
+                        newValues.push(moment(notification.event.dateTime).format("D MMM HH:mm"));
                     }
 
                     %>
@@ -72,37 +72,6 @@
             })
             %>
         </ul>
-    </script>
-    <script>
-        $(document).ready(function () {
-            $.getJSON("/api/notifications", function (notifications) {
-                if (notifications.length == 0)
-                    return;
-
-                $(".js-notifications-count")
-                    .text(notifications.length)
-                    .removeClass("hide")
-                    .addClass("animated bounceInDown");
-
-                $(".notifications").popover({
-                    html: true,
-                    title: "Notifications",
-                    content: function () {
-                        var compiled = _.template($("#notifications-template").html());
-                        return compiled({ notifications: notifications });
-                    },
-                    placement: "bottom",
-                    template: '<div class="popover popover-notifications" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
-                }).on("shown.bs.popover", function() {
-                    $.post("/api/notifications/markAsRead")
-                        .done(function () {
-                            $(".js-notifications-count")
-                                .text("")
-                                .addClass("hide");
-                        });
-                });
-            });
-        });
     </script>
 </body>
 </html>
