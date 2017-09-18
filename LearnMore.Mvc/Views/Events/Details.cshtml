@@ -1,0 +1,32 @@
+﻿@model LearnMore.Mvc.ViewModels.EventDetailsViewModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>
+    @Model.Event.Owner.Name
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (Model.IsFollowing)
+        {
+            <button class="btn btn-info">Following</button>
+        }
+        else
+        {
+            <button class="btn btn-default">Follow</button>
+        }
+    }
+</h2>
+<p>
+    Performing at @Model.Event.Venue on @Model.Event.DateTime.ToString("d MMM") at @Model.Event.DateTime.ToString("HH:mm")
+</p>
+
+@if (User.Identity.IsAuthenticated && Model.IsAttending)
+{
+    <p>You are going to this event. </p>
+}
+
+
+
+

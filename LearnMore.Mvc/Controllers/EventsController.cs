@@ -32,6 +32,32 @@ namespace LearnMore.Mvc.Controllers
             return View(evts);
         }
 
+        public ActionResult Details(int id)
+        {
+            var evt = _context.Events
+                .Include(g => g.Owner)
+                .Include(g => g.Genre)
+                .SingleOrDefault(g => g.Id == id);
+
+            if (evt == null)
+                return HttpNotFound();
+
+            var viewModel = new EventDetailsViewModel { Event = evt };
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = User.Identity.GetUserId();
+
+                viewModel.IsAttending = _context.Attendances
+                    .Any(a => a.EventId == evt.Id && a.AttendeeId == userId);
+
+                viewModel.IsFollowing = _context.Followings
+                    .Any(f => f.FolloweeId == evt.OwnerId && f.FollowerId == userId);
+            }
+
+            return View("Details", viewModel);
+        }
+
         [Authorize]
         public ActionResult Attending()
         {
@@ -43,11 +69,17 @@ namespace LearnMore.Mvc.Controllers
                 .Include(g => g.Genre)
                 .ToList();
 
+            var attendances = _context.Attendances
+                .Where(a => a.AttendeeId == userId && a.Event.DateTime > DateTime.Now)
+                .ToList()
+                .ToLookup(a => a.EventId);
+
             var viewModel = new EventsViewModel
             {
                 UpcomingEvents = evts,
                 ShowActions = User.Identity.IsAuthenticated,
-                Heading = "Event I'm Attending"
+                Heading = "Event I'm Attending",
+                Attendances = attendances
             };
 
             return View("Index", viewModel);

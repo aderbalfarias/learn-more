@@ -1,5 +1,6 @@
 ﻿using LearnMore.Mvc.Models;
 using LearnMore.Mvc.ViewModels;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -32,12 +33,19 @@ namespace LearnMore.Mvc.Controllers
                         g.Venue.Contains(searchTerm));
             }
 
+            var userId = User.Identity.GetUserId();
+            var attendances = _context.Attendances
+                .Where(a => a.AttendeeId == userId && a.Event.DateTime > DateTime.Now)
+                .ToList()
+                .ToLookup(a => a.EventId);
+
             var viewModel = new EventsViewModel
             {
                 UpcomingEvents = upcomingEvents,
                 ShowActions = User.Identity.IsAuthenticated,
-                Heading = "Upcoming Gigs",
-                SearchTerm = searchTerm
+                Heading = "Upcoming Events",
+                SearchTerm = searchTerm,
+                Attendances = attendances
             };
 
             return View("Index", viewModel);

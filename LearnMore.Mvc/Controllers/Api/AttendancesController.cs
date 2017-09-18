@@ -35,5 +35,22 @@ namespace LearnMore.Mvc.Controllers.Api
 
             return Ok();
         }
+
+        [HttpDelete]
+        public IHttpActionResult DeleteAttendance(int id)
+        {
+            var userId = User.Identity.GetUserId();
+
+            var attendance = _context.Attendances
+                .SingleOrDefault(a => a.AttendeeId == userId && a.EventId == id);
+
+            if (attendance == null)
+                return NotFound();
+
+            _context.Attendances.Remove(attendance);
+            _context.SaveChanges();
+
+            return Ok(id);
+        }
     }
 }
