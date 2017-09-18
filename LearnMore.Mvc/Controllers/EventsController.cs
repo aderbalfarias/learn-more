@@ -1,8 +1,7 @@
 ﻿using LearnMore.Mvc.Models;
+using LearnMore.Mvc.Persistence;
 using LearnMore.Mvc.ViewModels;
 using Microsoft.AspNet.Identity;
-using System;
-using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -11,33 +10,26 @@ namespace LearnMore.Mvc.Controllers
     public class EventsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UnitOfWork _unitOfWork;
 
         public EventsController()
         {
             _context = new ApplicationDbContext();
+            _unitOfWork = new UnitOfWork(_context);
         }
 
         [Authorize]
         public ActionResult Mine()
         {
             var userId = User.Identity.GetUserId();
-            var evts = _context.Events
-                .Where(g =>
-                    g.OwnerId == userId &&
-                    g.DateTime > DateTime.Now &&
-                    !g.IsCanceled)
-                .Include(g => g.Genre)
-                .ToList();
+            var evts = _unitOfWork.Events.GetUpcomingEventsByOwner(userId);
 
             return View(evts);
         }
 
         public ActionResult Details(int id)
         {
-            var evt = _context.Events
-                .Include(g => g.Owner)
-                .Include(g => g.Genre)
-                .SingleOrDefault(g => g.Id == id);
+            var evt = _unitOfWork.Events.GetEvent(id);
 
             if (evt == null)
                 return HttpNotFound();
@@ -48,11 +40,13 @@ namespace LearnMore.Mvc.Controllers
             {
                 var userId = User.Identity.GetUserId();
 
-                viewModel.IsAttending = _context.Attendances
-                    .Any(a => a.EventId == evt.Id && a.AttendeeId == userId);
+                viewModel.IsAttending = _unitOfWork
+                    .Attendances
+                    .GetAttendance(evt.Id, userId) != null;
 
-                viewModel.IsFollowing = _context.Followings
-                    .Any(f => f.FolloweeId == evt.OwnerId && f.FollowerId == userId);
+                viewModel.IsFollowing = _unitOfWork
+                    .Followings
+                    .GetFollowing(evt.OwnerId, userId) != null;
             }
 
             return View("Details", viewModel);
@@ -62,24 +56,16 @@ namespace LearnMore.Mvc.Controllers
         public ActionResult Attending()
         {
             var userId = User.Identity.GetUserId();
-            var evts = _context.Attendances
-                .Where(a => a.AttendeeId == userId)
-                .Select(a => a.Event)
-                .Include(g => g.Owner)
-                .Include(g => g.Genre)
-                .ToList();
-
-            var attendances = _context.Attendances
-                .Where(a => a.AttendeeId == userId && a.Event.DateTime > DateTime.Now)
-                .ToList()
-                .ToLookup(a => a.EventId);
 
             var viewModel = new EventsViewModel
             {
-                UpcomingEvents = evts,
+                UpcomingEvents = _unitOfWork.Events.GetEventsUserAttending(userId),
                 ShowActions = User.Identity.IsAuthenticated,
                 Heading = "Event I'm Attending",
-                Attendances = attendances
+                Attendances = _unitOfWork
+                    .Attendances
+                    .GetFutureAttendances(userId)
+                    .ToLookup(a => a.EventId)
             };
 
             return View("Index", viewModel);
@@ -91,7 +77,7 @@ namespace LearnMore.Mvc.Controllers
         {
             var viewModel = new EventFormViewModel
             {
-                Genres = _context.Genres.ToList(),
+                Genres = _unitOfWork.Genres.GetGenres(),
                 Heading = "Add a Event"
             };
 
@@ -101,14 +87,19 @@ namespace LearnMore.Mvc.Controllers
         [Authorize]
         public ActionResult Edit(int id)
         {
-            var userId = User.Identity.GetUserId();
-            var evt = _context.Events.Single(g => g.Id == id && g.OwnerId == userId);
+            var evt = _unitOfWork.Events.GetEvent(id);
+
+            if (evt == null)
+                return HttpNotFound();
+
+            if (evt.OwnerId != User.Identity.GetUserId())
+                return new HttpUnauthorizedResult();
 
             var viewModel = new EventFormViewModel
             {
                 Heading = "Edit a Event",
                 Id = evt.Id,
-                Genres = _context.Genres.ToList(),
+                Genres = _unitOfWork.Genres.GetGenres(),
                 Date = evt.DateTime.ToString("d MMM yyyy"),
                 Time = evt.DateTime.ToString("HH:mm"),
                 Genre = evt.GenreId,
@@ -125,7 +116,7 @@ namespace LearnMore.Mvc.Controllers
         {
             if (!ModelState.IsValid)
             {
-                viewModel.Genres = _context.Genres.ToList();
+                viewModel.Genres = _unitOfWork.Genres.GetGenres();
                 return View("Form", viewModel);
             }
 
@@ -137,8 +128,8 @@ namespace LearnMore.Mvc.Controllers
                 Venue = viewModel.Venue
             };
 
-            _context.Events.Add(evt);
-            _context.SaveChanges();
+            _unitOfWork.Events.Add(evt);
+            _unitOfWork.Complete();
 
             return RedirectToAction("Mine", "Events");
         }
@@ -150,18 +141,21 @@ namespace LearnMore.Mvc.Controllers
         {
             if (!ModelState.IsValid)
             {
-                viewModel.Genres = _context.Genres.ToList();
+                viewModel.Genres = _unitOfWork.Genres.GetGenres();
                 return View("Form", viewModel);
             }
 
-            var userId = User.Identity.GetUserId();
-            var evt = _context.Events
-                .Include(g => g.Attendances.Select(a => a.Attendee))
-                .Single(g => g.Id == viewModel.Id && g.OwnerId == userId);
+            var evt = _unitOfWork.Events.GetEventWithAttendees(viewModel.Id);
+
+            if (evt == null)
+                return HttpNotFound();
+
+            if (evt.OwnerId != User.Identity.GetUserId())
+                return new HttpUnauthorizedResult();
 
             evt.Modify(viewModel.GetDateTime(), viewModel.Venue, viewModel.Genre);
 
-            _context.SaveChanges();
+            _unitOfWork.Complete();
 
             return RedirectToAction("Mine", "Events");
         }
