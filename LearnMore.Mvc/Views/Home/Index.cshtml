@@ -18,7 +18,7 @@
     </div>
 }
 
-<ul class="events voffset4">
+<ul id="event" class="events voffset4">
     @foreach (var evt in Model.UpcomingEvents)
     {
         <li>
@@ -32,16 +32,12 @@
             </div>
             <div class="details">
                 <span class="owner">
-                    @evt.Owner.Name
-
+                    <a href="@Url.Action("Details", "Events", new { id = evt.Id })">
+                        @evt.Owner.Name
+                    </a>
                     @if (evt.IsCanceled)
                     {
                         <span class="label label-warning">Canceled</span>
-                    }
-
-                    @if (Model.ShowActions)
-                    {
-                        <button class="btn btn-link btn-sm js-toggle-follow" data-user-id="@evt.OwnerId">Follow</button>
                     }
                 </span>
                 <span class="genre">
@@ -64,46 +60,7 @@
 {
     <script>
         $(document).ready(function() {
-            $(".js-toggle-attendance").click(function(e) {
-                var button = $(e.target);
-                if (button.hasClass("btn-default")) {
-                    $.post("/api/attendances", { eventId: button.attr("data-event-id") })
-                        .done(function () {
-                            button
-                                .removeClass("btn-default")
-                                .addClass("btn-info")
-                                .text("Going");
-                        })
-                        .fail(function () {
-                            alert("Something failed!");
-                        });
-                } else {
-                    $.ajax({
-                            url: "/api/attendances/" + button.attr("data-event-id"),
-                            method: "DELETE"
-                        })
-                        .done(function () {
-                            button
-                                .removeClass("btn-info")
-                                .addClass("btn-default")
-                                .text("Going?");
-                        })
-                        .fail(function () {
-                            alert("Something failed");
-                        });
-                }
-            });
-
-            $(".js-toggle-follow").click(function (e) {
-                var button = $(e.target);
-                $.post("/api/followings", { followeeId: button.attr("data-user-id") })
-                    .done(function () {
-                        button.text("Following");
-                    })
-                    .fail(function () {
-                        alert("Something failed");
-                    });
-            });
+            EventController.init("#event");
         });
     </script>
 }
