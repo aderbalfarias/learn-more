@@ -9,11 +9,11 @@ namespace LearnMore.Mvc.Controllers
 {
     public class EventsController : Controller
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public EventsController()
+        public EventsController(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = new UnitOfWork(new ApplicationDbContext());
+            _unitOfWork = unitOfWork;
         }
 
         [Authorize]

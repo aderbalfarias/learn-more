@@ -3,15 +3,15 @@ using LearnMore.Mvc.Repositories;
 
 namespace LearnMore.Mvc.Persistence
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
 
-        public EventRepository Events { get; private set; }
-        public AttendanceRepository Attendances { get; private set; }
-        public GenreRepository Genres { get; private set; }
-        public FollowingRepository Followings { get; private set; }
-        public ApplicationUserRepository ApplicationUsers { get; private set; }
+        public IEventRepository Events { get; private set; }
+        public IAttendanceRepository Attendances { get; private set; }
+        public IGenreRepository Genres { get; private set; }
+        public IFollowingRepository Followings { get; private set; }
+        public IApplicationUserRepository ApplicationUsers { get; private set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {

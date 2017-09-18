@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace LearnMore.Mvc.Repositories
 {
-    public class ApplicationUserRepository
+    public class ApplicationUserRepository : IApplicationUserRepository
     {
         private readonly ApplicationDbContext _context;
 

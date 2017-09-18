@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace LearnMore.Mvc.Repositories
 {
-    public class EventRepository
+    public class EventRepository : IEventRepository
     {
         private readonly ApplicationDbContext _context;
 
