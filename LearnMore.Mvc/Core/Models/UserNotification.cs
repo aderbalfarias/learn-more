@@ -6,12 +6,8 @@ namespace LearnMore.Mvc.Core.Models
 {
     public class UserNotification
     {
-        [Key]
-        [Column(Order = 1)]
         public string UserId { get; set; }
 
-        [Key]
-        [Column(Order = 2)]
         public int NotificationId { get; set; }
 
         public ApplicationUser User { get; set; }
