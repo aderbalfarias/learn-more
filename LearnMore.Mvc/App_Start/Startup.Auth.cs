@@ -1,10 +1,11 @@
-﻿using LearnMore.Mvc.Models;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 using System;
+using LearnMore.Mvc.Core.Models;
+using LearnMore.Mvc.Persistence;
 
 namespace LearnMore.Mvc
 {

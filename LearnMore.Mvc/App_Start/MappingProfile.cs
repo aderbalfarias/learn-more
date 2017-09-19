@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using LearnMore.Mvc.Dtos;
-using LearnMore.Mvc.Models;
+using LearnMore.Mvc.Core.Dtos;
+using LearnMore.Mvc.Core.Models;
 
 namespace LearnMore.Mvc
 {

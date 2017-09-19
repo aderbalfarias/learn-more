@@ -1,5 +1,7 @@
-﻿using LearnMore.Mvc.Models;
-using LearnMore.Mvc.Repositories;
+﻿using LearnMore.Mvc.Core.Interfaces.Generics;
+using LearnMore.Mvc.Core.Interfaces.Repositories;
+using LearnMore.Mvc.Core.Models;
+using LearnMore.Mvc.Persistence.Repositories;
 
 namespace LearnMore.Mvc.Persistence
 {

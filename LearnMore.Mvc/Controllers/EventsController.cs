@@ -1,9 +1,10 @@
-﻿using LearnMore.Mvc.Models;
-using LearnMore.Mvc.Persistence;
-using LearnMore.Mvc.ViewModels;
+﻿using LearnMore.Mvc.Persistence;
 using Microsoft.AspNet.Identity;
 using System.Linq;
 using System.Web.Mvc;
+using LearnMore.Mvc.Core.Interfaces.Generics;
+using LearnMore.Mvc.Core.Models;
+using LearnMore.Mvc.Core.ViewModels;
 
 namespace LearnMore.Mvc.Controllers
 {
