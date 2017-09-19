@@ -1,20 +1,19 @@
-﻿using Microsoft.AspNet.Identity;
-using System.Linq;
-using System.Web.Http;
-using LearnMore.Mvc.Core.Dtos;
+﻿using LearnMore.Mvc.Core.Dtos;
+using LearnMore.Mvc.Core.Interfaces.Generics;
 using LearnMore.Mvc.Core.Models;
-using LearnMore.Mvc.Persistence;
+using Microsoft.AspNet.Identity;
+using System.Web.Http;
 
 namespace LearnMore.Mvc.Controllers.Api
 {
     [Authorize]
     public class FollowingsController : ApiController
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public FollowingsController()
+        public FollowingsController(IUnitOfWork unitOfWork)
         {
-            _context = new ApplicationDbContext();
+            _unitOfWork = unitOfWork;
         }
 
         [HttpPost]
@@ -22,7 +21,7 @@ namespace LearnMore.Mvc.Controllers.Api
         {
             var userId = User.Identity.GetUserId();
 
-            if (_context.Followings.Any(f => f.FolloweeId == userId && f.FolloweeId == followingDto.FolloweeId))
+            if (_unitOfWork.Followings.GetFollowing(userId, followingDto.FolloweeId) != null)
                 return BadRequest("Following already exists.");
 
             var following = new Following
@@ -31,8 +30,8 @@ namespace LearnMore.Mvc.Controllers.Api
                 FolloweeId = followingDto.FolloweeId
             };
 
-            _context.Followings.Add(following);
-            _context.SaveChanges();
+            _unitOfWork.Followings.Add(following);
+            _unitOfWork.Complete();
 
             return Ok();
         }
@@ -42,14 +41,13 @@ namespace LearnMore.Mvc.Controllers.Api
         {
             var userId = User.Identity.GetUserId();
 
-            var following = _context.Followings
-                .SingleOrDefault(f => f.FollowerId == userId && f.FolloweeId == id);
+            var following = _unitOfWork.Followings.GetFollowing(userId, id);
 
             if (following == null)
                 return NotFound();
 
-            _context.Followings.Remove(following);
-            _context.SaveChanges();
+            _unitOfWork.Followings.Remove(following);
+            _unitOfWork.Complete();
 
             return Ok(id);
         }

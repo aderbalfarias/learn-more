@@ -1,8 +1,8 @@
-﻿using System;
+﻿using LearnMore.Mvc.Core.Interfaces.Repositories;
+using LearnMore.Mvc.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using LearnMore.Mvc.Core.Interfaces.Repositories;
-using LearnMore.Mvc.Core.Models;
 
 namespace LearnMore.Mvc.Persistence.Repositories
 {
@@ -27,6 +27,16 @@ namespace LearnMore.Mvc.Persistence.Repositories
             return _context.Attendances
                 .SingleOrDefault(a => a.EventId == eventId
                     && a.AttendeeId == userId);
+        }
+
+        public void Add(Attendance entity)
+        {
+            _context.Attendances.Add(entity);
+        }
+
+        public void Remove(Attendance entity)
+        {
+            _context.Attendances.Remove(entity);
         }
     }
 }

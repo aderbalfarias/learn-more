@@ -1,7 +1,6 @@
 ﻿body {
   padding-top: 90px;
   padding-bottom: 20px;
-  font-size: 17px;
 }
 /* Set padding to keep content from hitting the edges */
 .body-content {
@@ -49,8 +48,8 @@ span.field-validation-error {
     src: url('fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('fonts/glyphicons-halflings-regular.woff') format('woff'), url('fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
 }
 .popover {
-  -webkit-box-shadow: none;
   box-shadow: none;
+  -webkit-box-shadow: none;
 }
 .navbar-inverse {
   background-color: #ff4342;
@@ -92,6 +91,9 @@ span.field-validation-error {
 }
 .navbar-nav > li > .dropdown-menu { 
     margin-top: 3px; 
+}
+body {
+  font-size: 17px;
 }
 body,
 h1,

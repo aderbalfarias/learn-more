@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using LearnMore.Mvc.Core.Interfaces.Repositories;
+﻿using LearnMore.Mvc.Core.Interfaces.Repositories;
 using LearnMore.Mvc.Core.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace LearnMore.Mvc.Persistence.Repositories
 {
@@ -27,6 +27,16 @@ namespace LearnMore.Mvc.Persistence.Repositories
                 .Where(f => f.FollowerId == userId)
                 .Select(f => f.Followee)
                 .ToList();
+        }
+
+        public void Add(Following entity)
+        {
+            _context.Followings.Add(entity);
+        }
+
+        public void Remove(Following entity)
+        {
+            _context.Followings.Remove(entity);
         }
     }
 }

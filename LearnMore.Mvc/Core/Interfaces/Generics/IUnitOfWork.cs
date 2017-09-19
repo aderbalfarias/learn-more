@@ -9,6 +9,8 @@ namespace LearnMore.Mvc.Core.Interfaces.Generics
         IGenreRepository Genres { get; }
         IFollowingRepository Followings { get; }
         IApplicationUserRepository ApplicationUsers { get; }
+        INotificationRepository Notifications { get; }
+        IUserNotificationRepository UserNotifications { get; }
         void Complete();
     }
 }

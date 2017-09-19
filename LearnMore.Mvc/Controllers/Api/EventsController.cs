@@ -1,36 +1,31 @@
-﻿using Microsoft.AspNet.Identity;
-using System.Data.Entity;
-using System.Linq;
+﻿using LearnMore.Mvc.Core.Interfaces.Generics;
+using Microsoft.AspNet.Identity;
 using System.Web.Http;
-using LearnMore.Mvc.Core.Models;
-using LearnMore.Mvc.Persistence;
 
 namespace LearnMore.Mvc.Controllers.Api
 {
     [Authorize]
     public class EventsController : ApiController
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public EventsController()
+        public EventsController(IUnitOfWork unitOfWork)
         {
-            _context = new ApplicationDbContext();
+            _unitOfWork = unitOfWork;
         }
 
         [HttpDelete]
         public IHttpActionResult Cancel(int id)
         {
             var userId = User.Identity.GetUserId();
-            var evt = _context.Events
-                .Include(g => g.Attendances.Select(a => a.Attendee))
-                .Single(g => g.Id == id && g.OwnerId == userId);
+            var evt = _unitOfWork.Events.GetEventWithAttendees(id, userId);
 
             if (evt.IsCanceled)
                 return NotFound();
 
             evt.Cancel();
 
-            _context.SaveChanges();
+            _unitOfWork.Complete();
 
             return Ok();
         }

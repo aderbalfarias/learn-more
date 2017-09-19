@@ -1,20 +1,19 @@
-﻿using Microsoft.AspNet.Identity;
-using System.Linq;
-using System.Web.Http;
-using LearnMore.Mvc.Core.Dtos;
+﻿using LearnMore.Mvc.Core.Dtos;
+using LearnMore.Mvc.Core.Interfaces.Generics;
 using LearnMore.Mvc.Core.Models;
-using LearnMore.Mvc.Persistence;
+using Microsoft.AspNet.Identity;
+using System.Web.Http;
 
 namespace LearnMore.Mvc.Controllers.Api
 {
     [Authorize]
     public class AttendancesController : ApiController
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public AttendancesController()
+        public AttendancesController(IUnitOfWork unitOfWork)
         {
-            _context = new ApplicationDbContext();
+            _unitOfWork = unitOfWork;
         }
 
         [HttpPost]
@@ -22,7 +21,7 @@ namespace LearnMore.Mvc.Controllers.Api
         {
             var userId = User.Identity.GetUserId();
 
-            if (_context.Attendances.Any(a => a.AttendeeId == userId && a.EventId == dto.EventId))
+            if (_unitOfWork.Attendances.GetAttendance(dto.EventId, userId) != null)
                 return BadRequest("The attendance already exists.");
 
             var attendance = new Attendance
@@ -31,8 +30,8 @@ namespace LearnMore.Mvc.Controllers.Api
                 AttendeeId = userId
             };
 
-            _context.Attendances.Add(attendance);
-            _context.SaveChanges();
+            _unitOfWork.Attendances.Add(attendance);
+            _unitOfWork.Complete();
 
             return Ok();
         }
@@ -42,14 +41,13 @@ namespace LearnMore.Mvc.Controllers.Api
         {
             var userId = User.Identity.GetUserId();
 
-            var attendance = _context.Attendances
-                .SingleOrDefault(a => a.AttendeeId == userId && a.EventId == id);
+            var attendance = _unitOfWork.Attendances.GetAttendance(id, userId);
 
             if (attendance == null)
                 return NotFound();
 
-            _context.Attendances.Remove(attendance);
-            _context.SaveChanges();
+            _unitOfWork.Attendances.Remove(attendance);
+            _unitOfWork.Complete();
 
             return Ok(id);
         }

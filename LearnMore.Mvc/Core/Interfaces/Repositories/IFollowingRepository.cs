@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using LearnMore.Mvc.Core.Models;
+﻿using LearnMore.Mvc.Core.Models;
+using System.Collections.Generic;
 
 namespace LearnMore.Mvc.Core.Interfaces.Repositories
 {
@@ -7,5 +7,7 @@ namespace LearnMore.Mvc.Core.Interfaces.Repositories
     {
         Following GetFollowing(string followerId, string followeeId);
         IEnumerable<ApplicationUser> GetFollowee(string userId);
+        void Add(Following entity);
+        void Remove(Following entity);
     }
 }

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using LearnMore.Mvc.Core.Interfaces.Repositories;
+using LearnMore.Mvc.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using LearnMore.Mvc.Core.Interfaces.Repositories;
-using LearnMore.Mvc.Core.Models;
 
 namespace LearnMore.Mvc.Persistence.Repositories
 {
@@ -60,6 +60,13 @@ namespace LearnMore.Mvc.Persistence.Repositories
             return _context.Events
                 .Include(g => g.Attendances.Select(a => a.Attendee))
                 .SingleOrDefault(g => g.Id == eventId);
+        }
+
+        public Event GetEventWithAttendees(int eventId, string userId)
+        {
+            return _context.Events
+                .Include(g => g.Attendances.Select(a => a.Attendee))
+                .SingleOrDefault(g => g.Id == eventId && g.OwnerId == userId);
         }
 
         public IEnumerable<Event> GetEventsUserAttending(string userId)

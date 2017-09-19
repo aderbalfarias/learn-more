@@ -1,34 +1,29 @@
 ﻿using AutoMapper;
+using LearnMore.Mvc.Core.Dtos;
+using LearnMore.Mvc.Core.Interfaces.Generics;
+using LearnMore.Mvc.Core.Models;
 using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
-using LearnMore.Mvc.Core.Dtos;
-using LearnMore.Mvc.Core.Models;
-using LearnMore.Mvc.Persistence;
+using WebGrease.Css.Extensions;
 
 namespace LearnMore.Mvc.Controllers.Api
 {
     [Authorize]
     public class NotificationsController : ApiController
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public NotificationsController()
+        public NotificationsController(IUnitOfWork unitOfWork)
         {
-            _context = new ApplicationDbContext();
+            _unitOfWork = unitOfWork;
         }
 
         public IEnumerable<NotificationDto> GetNewNotifications()
         {
             var userId = User.Identity.GetUserId();
-
-            var notifications = _context.UserNotifications
-                .Where(un => un.UserId == userId && !un.IsRead)
-                .Select(un => un.Notification)
-                .Include(n => n.Event.Owner)
-                .ToList();
+            var notifications = _unitOfWork.Notifications.GetNewNotificationsFor(userId);
 
             return notifications.Select(Mapper.Map<Notification, NotificationDto>);
         }
@@ -37,13 +32,11 @@ namespace LearnMore.Mvc.Controllers.Api
         public IHttpActionResult MarkAsRead()
         {
             var userId = User.Identity.GetUserId();
-            var notifications = _context.UserNotifications
-                .Where(un => un.UserId == userId && !un.IsRead)
-                .ToList();
+            var notifications = _unitOfWork.UserNotifications.GetUserNotificationsFor(userId);
 
             notifications.ForEach(n => n.Read());
 
-            _context.SaveChanges();
+            _unitOfWork.Complete();
 
             return Ok();
         }

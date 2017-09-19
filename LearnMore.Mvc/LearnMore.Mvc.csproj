@@ -258,6 +258,8 @@
     <Compile Include="Core\Dtos\EventDto.cs" />
     <Compile Include="Core\Dtos\NotificationDto.cs" />
     <Compile Include="Core\Dtos\UserDto.cs" />
+    <Compile Include="Core\Interfaces\Repositories\INotificationRepository.cs" />
+    <Compile Include="Core\Interfaces\Repositories\IUserNotificationRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -317,6 +319,8 @@
     <Compile Include="Core\Models\NotificationType.cs" />
     <Compile Include="Core\Models\UserNotification.cs" />
     <Compile Include="Core\Interfaces\Generics\IUnitOfWork.cs" />
+    <Compile Include="Persistence\Repositories\NotificationRepository.cs" />
+    <Compile Include="Persistence\Repositories\UserNotificationRepository.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Persistence\Repositories\AttendanceRepository.cs" />

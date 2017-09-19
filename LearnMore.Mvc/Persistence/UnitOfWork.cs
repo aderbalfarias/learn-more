@@ -1,6 +1,5 @@
 ﻿using LearnMore.Mvc.Core.Interfaces.Generics;
 using LearnMore.Mvc.Core.Interfaces.Repositories;
-using LearnMore.Mvc.Core.Models;
 using LearnMore.Mvc.Persistence.Repositories;
 
 namespace LearnMore.Mvc.Persistence
@@ -14,6 +13,8 @@ namespace LearnMore.Mvc.Persistence
         public IGenreRepository Genres { get; private set; }
         public IFollowingRepository Followings { get; private set; }
         public IApplicationUserRepository ApplicationUsers { get; private set; }
+        public INotificationRepository Notifications { get; private set; }
+        public IUserNotificationRepository UserNotifications { get; private set; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -23,6 +24,8 @@ namespace LearnMore.Mvc.Persistence
             Genres = new GenreRepository(context);
             Followings = new FollowingRepository(context);
             ApplicationUsers = new ApplicationUserRepository(context);
+            Notifications = new NotificationRepository(context);
+            UserNotifications = new UserNotificationRepository(context);
         }
 
         public void Complete()
