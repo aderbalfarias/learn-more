@@ -23,6 +23,9 @@ namespace LearnMore.Mvc.Controllers.Api
             if (evt == null || evt.IsCanceled)
                 return NotFound();
 
+            if (evt.OwnerId != userId)
+                return Unauthorized();
+
             evt.Cancel();
 
             _unitOfWork.Complete();
