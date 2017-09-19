@@ -20,7 +20,7 @@ namespace LearnMore.Mvc.Controllers.Api
             var userId = User.Identity.GetUserId();
             var evt = _unitOfWork.Events.GetEventWithAttendees(id, userId);
 
-            if (evt.IsCanceled)
+            if (evt == null || evt.IsCanceled)
                 return NotFound();
 
             evt.Cancel();
