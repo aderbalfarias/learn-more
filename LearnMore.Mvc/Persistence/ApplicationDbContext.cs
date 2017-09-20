@@ -2,10 +2,11 @@
 using LearnMore.Mvc.Persistence.EntityConfigurations;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
+using LearnMore.Mvc.Core.Interfaces.Generics;
 
 namespace LearnMore.Mvc.Persistence
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
     {
         public DbSet<Event> Events { get; set; }
         public DbSet<Genre> Genres { get; set; }

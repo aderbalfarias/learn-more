@@ -1,4 +1,5 @@
-﻿using LearnMore.Mvc.Core.Interfaces.Repositories;
+﻿using LearnMore.Mvc.Core.Interfaces.Generics;
+using LearnMore.Mvc.Core.Interfaces.Repositories;
 using LearnMore.Mvc.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,9 @@ namespace LearnMore.Mvc.Persistence.Repositories
 {
     public class EventRepository : IEventRepository
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IApplicationDbContext _context;
 
-        public EventRepository(ApplicationDbContext context)
+        public EventRepository(IApplicationDbContext context)
         {
             _context = context;
         }

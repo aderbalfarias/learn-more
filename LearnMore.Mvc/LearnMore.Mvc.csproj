@@ -270,6 +270,7 @@
     <Compile Include="Persistence\EntityConfigurations\EventConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\NotificationConfiguration.cs" />
     <Compile Include="Persistence\EntityConfigurations\UserNotificationConfiguration.cs" />
+    <Compile Include="Core\Interfaces\Generics\IApplicationDbContext.cs" />
     <Compile Include="Persistence\Migrations\201709111814420_InitialModel.cs" />
     <Compile Include="Persistence\Migrations\201709111814420_InitialModel.Designer.cs">
       <DependentUpon>201709111814420_InitialModel.cs</DependentUpon>

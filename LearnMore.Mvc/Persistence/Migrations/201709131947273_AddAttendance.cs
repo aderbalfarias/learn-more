@@ -10,11 +10,11 @@ namespace LearnMore.Mvc.Persistence.Migrations
                 "dbo.Attendances",
                 c => new
                 {
-                    GigId = c.Int(nullable: false),
+                    EventId = c.Int(nullable: false),
                     AttendeeId = c.String(nullable: false, maxLength: 128),
                     Event_Id = c.Int(nullable: false),
                 })
-                .PrimaryKey(t => new { t.GigId, t.AttendeeId })
+                .PrimaryKey(t => new { t.EventId, t.AttendeeId })
                 .ForeignKey("dbo.AspNetUsers", t => t.AttendeeId, cascadeDelete: true)
                 .ForeignKey("dbo.Events", t => t.Event_Id)
                 .Index(t => t.AttendeeId)

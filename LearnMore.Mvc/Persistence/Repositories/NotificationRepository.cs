@@ -1,4 +1,5 @@
-﻿using LearnMore.Mvc.Core.Interfaces.Repositories;
+﻿using LearnMore.Mvc.Core.Interfaces.Generics;
+using LearnMore.Mvc.Core.Interfaces.Repositories;
 using LearnMore.Mvc.Core.Models;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,9 +9,9 @@ namespace LearnMore.Mvc.Persistence.Repositories
 {
     public class NotificationRepository : INotificationRepository
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IApplicationDbContext _context;
 
-        public NotificationRepository(ApplicationDbContext context)
+        public NotificationRepository(IApplicationDbContext context)
         {
             _context = context;
         }
