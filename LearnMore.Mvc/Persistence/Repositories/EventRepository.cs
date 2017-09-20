@@ -73,7 +73,7 @@ namespace LearnMore.Mvc.Persistence.Repositories
         public IEnumerable<Event> GetEventsUserAttending(string userId)
         {
             return _context.Attendances
-                .Where(a => a.AttendeeId == userId)
+                .Where(a => a.AttendeeId == userId && a.Event.DateTime > DateTime.Now)
                 .Select(a => a.Event)
                 .Include(g => g.Owner)
                 .Include(g => g.Genre)

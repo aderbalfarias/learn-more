@@ -66,7 +66,8 @@ namespace LearnMore.Test.Persistence.Repositories
 
             _mockNotifications.SetSource(new[] { userNotification });
 
-            var notifications = _repository.GetNewNotificationsFor(user.Id);
+            //need to review
+            var notifications = _repository.GetNewNotificationsFor(userNotification.UserId);
 
             notifications.Should().HaveCount(1);
             notifications.First().Should().Be(notification);

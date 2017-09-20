@@ -1,5 +1,5 @@
-﻿using System.Data.Entity;
-using LearnMore.Mvc.Core.Models;
+﻿using LearnMore.Mvc.Core.Models;
+using System.Data.Entity;
 
 namespace LearnMore.Mvc.Core.Interfaces.Generics
 {
