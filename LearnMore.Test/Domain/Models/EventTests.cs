@@ -26,7 +26,6 @@ namespace LearnMore.Test.Domain.Models
 
             evt.Cancel();
 
-            //TODO: This could be pushed into the Event class (eg evt.GetAttendees())
             var attendees = evt.Attendances.Select(a => a.Attendee).ToList();
             attendees[0].UserNotifications.Count.Should().Be(1);
         }
