@@ -6,13 +6,16 @@ namespace LearnMore.Mvc.Persistence.Migrations
     {
         public override void Up()
         {
-            RenameColumn(table: "dbo.Attendances", name: "Event_Id", newName: "EventId");
             RenameIndex(table: "dbo.Attendances", name: "IX_Event_Id", newName: "IX_EventId");
             DropPrimaryKey("dbo.Attendances");
+            //RenameColumn(table: "dbo.Attendances", name: "Event_Id", newName: "EventId");
             AddPrimaryKey("dbo.Attendances", new[] { "EventId", "AttendeeId" });
-            DropColumn("dbo.Attendances", "EventId");
+            DropIndex(table: "dbo.Attendances", name: "IX_EventId");
+            DropForeignKey("dbo.Attendances", name: "FK_dbo.Attendances_dbo.Events_Event_Id");
+            DropColumn("dbo.Attendances", "Event_Id");
+            AddForeignKey("dbo.Attendances", "EventId", "dbo.Events", "Id", cascadeDelete: false);
         }
-        
+
         public override void Down()
         {
             AddColumn("dbo.Attendances", "EventId", c => c.Int(nullable: false));

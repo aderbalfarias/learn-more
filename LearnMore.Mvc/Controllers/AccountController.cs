@@ -127,7 +127,7 @@ namespace LearnMore.Mvc.Controllers
                     return View("Lockout");
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid code.");
+                    ModelState.AddModelError("", @"Invalid code.");
                     return View(model);
             }
         }

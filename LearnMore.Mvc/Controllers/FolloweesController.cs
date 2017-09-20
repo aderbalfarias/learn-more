@@ -1,7 +1,6 @@
 ﻿using LearnMore.Mvc.Persistence;
 using Microsoft.AspNet.Identity;
 using System.Web.Mvc;
-using LearnMore.Mvc.Core.Models;
 
 namespace LearnMore.Mvc.Controllers
 {
