@@ -8,14 +8,6 @@ namespace LearnMore.Test.Domain.Models
     [TestClass]
     public class EventTests
     {
-        // A different approach to write these tests is using BDD. 
-        // 
-        // GivenAnOwnerHasAEvent
-        //      WhenHeCancelsTheEvent
-        //          IsCanceledShouldBeSetToTrue
-        //          EachAttendeeShouldHaveANotification
-        //
-        // 
         [TestMethod]
         public void Cancel_WhenCalled_ShouldSetIsCanceledToTrue()
         {
