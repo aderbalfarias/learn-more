@@ -1,8 +1,8 @@
-﻿using LearnMore.Mvc.Core.Models;
+﻿using LearnMore.Mvc.Core.Interfaces.Generics;
+using LearnMore.Mvc.Core.Models;
 using LearnMore.Mvc.Persistence.EntityConfigurations;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
-using LearnMore.Mvc.Core.Interfaces.Generics;
 
 namespace LearnMore.Mvc.Persistence
 {

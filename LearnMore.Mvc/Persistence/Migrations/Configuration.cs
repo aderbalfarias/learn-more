@@ -2,7 +2,7 @@ using System.Data.Entity.Migrations;
 
 namespace LearnMore.Mvc.Persistence.Migrations
 {
-    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
+    public sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         public Configuration()
         {

@@ -5,3 +5,5 @@
 /LearnMore.Mvc/App_Data
 /LearnMore.Test/bin/Debug
 /LearnMore.Test/obj/Debug
+/LearnMore.Mvc.IntegrationTests/bin/Debug
+/LearnMore.Mvc.IntegrationTests/obj/Debug
