@@ -4,7 +4,7 @@ namespace LearnMore.Mvc.Core.Models
 {
     public class Notification
     {
-        public int Id { get; private set; }
+        public int Id { get; private set; } = 0;
         public DateTime DateTime { get; private set; }
         public NotificationType Type { get; private set; }
         public DateTime? OriginalDateTime { get; private set; }
