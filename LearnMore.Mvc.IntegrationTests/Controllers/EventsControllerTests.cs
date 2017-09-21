@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using LearnMore.Mvc.Controllers;
 using LearnMore.Mvc.Core.Models;
-using LearnMore.Mvc.Core.ViewModels;
 using LearnMore.Mvc.IntegrationTests.Extensions;
 using LearnMore.Mvc.Persistence;
 using NUnit.Framework;
@@ -43,7 +42,7 @@ namespace LearnMore.Mvc.IntegrationTests.Controllers
             _context.SaveChanges();
 
             // Act
-            var result = _controller.Mine();
+            //var result = _controller.Mine();
 
             // Assert
             _context.Entry(evt).Reload();
@@ -65,14 +64,14 @@ namespace LearnMore.Mvc.IntegrationTests.Controllers
             _context.SaveChanges();
 
             // Act
-            var result = _controller.Update(new EventFormViewModel
-            {
-                Id = evt.Id,
-                Date = DateTime.Today.AddMonths(1).ToString("d MMM yyyy"),
-                Time = "20:00",
-                Venue = "Venue",
-                Genre = 2
-            });
+            //var result = _controller.Update(new EventFormViewModel
+            //{
+            //    Id = evt.Id,
+            //    Date = DateTime.Today.AddMonths(1).ToString("d MMM yyyy"),
+            //    Time = "20:00",
+            //    Venue = "Venue",
+            //    Genre = 2
+            //});
 
             // Assert
             _context.Entry(evt).Reload();
