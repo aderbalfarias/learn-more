@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearnMore.Mvc", "LearnMore.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearnMore.Test", "LearnMore.Test\LearnMore.Test.csproj", "{02C7153F-929E-4772-9229-4389A0FE6E15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearnMore.Mvc.IntegrationTests", "LearnMore.Mvc.IntegrationTests\LearnMore.Mvc.IntegrationTests.csproj", "{F7C5A099-DF1E-4184-8E6B-E6FA5C8EB123}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearnMore.IntegrationTests", "LearnMore.Mvc.IntegrationTests\LearnMore.IntegrationTests.csproj", "{F7C5A099-DF1E-4184-8E6B-E6FA5C8EB123}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

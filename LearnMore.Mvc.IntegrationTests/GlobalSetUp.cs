@@ -5,7 +5,7 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 
 
-namespace LearnMore.Mvc.IntegrationTests
+namespace LearnMore.IntegrationTests
 {
     [SetUpFixture]
     public class GlobalSetUp
@@ -19,7 +19,7 @@ namespace LearnMore.Mvc.IntegrationTests
 
         private static void MigrateDbToLatestVersion()
         {
-            var configuration = new Persistence.Migrations.Configuration();
+            var configuration = new Mvc.Persistence.Migrations.Configuration();
             var migrator = new DbMigrator(configuration);
             migrator.Update();
         }

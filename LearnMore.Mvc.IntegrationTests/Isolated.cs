@@ -2,7 +2,7 @@
 using System;
 using System.Transactions;
 
-namespace LearnMore.Mvc.IntegrationTests
+namespace LearnMore.IntegrationTests
 {
     public class Isolated : Attribute, ITestAction
     {

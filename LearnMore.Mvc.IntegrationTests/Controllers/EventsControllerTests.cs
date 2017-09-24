@@ -1,14 +1,14 @@
 ﻿using FluentAssertions;
+using LearnMore.IntegrationTests.Extensions;
 using LearnMore.Mvc.Controllers;
 using LearnMore.Mvc.Core.Models;
-using LearnMore.Mvc.IntegrationTests.Extensions;
 using LearnMore.Mvc.Persistence;
 using NUnit.Framework;
 using System;
 using System.Linq;
 
 
-namespace LearnMore.Mvc.IntegrationTests.Controllers
+namespace LearnMore.IntegrationTests.Controllers
 {
     [TestFixture]
     public class EventsControllerTests

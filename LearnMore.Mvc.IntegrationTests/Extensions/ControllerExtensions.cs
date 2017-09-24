@@ -4,7 +4,7 @@ using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 
-namespace LearnMore.Mvc.IntegrationTests.Extensions
+namespace LearnMore.IntegrationTests.Extensions
 {
     public static class ControllerExtensions
     {
